@@ -1,0 +1,469 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #0d0d0d;
+  color: #f5f5f5;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #202020;
+  padding: 1em 2em;
+}
+
+.navbar .logo{
+  height: 80px;
+  width: auto;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  gap: 1.5em;
+  margin: 0;
+}
+
+.navbar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signup-btn {
+  background: #00ff0d;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  transition: .3s;
+}
+
+.signup-btn:hover{
+  background: #5b5b5b;
+}
+
+.logout-page {
+  text-align: center;
+  padding: 60px 20px;
+  color: #fff;
+}
+
+.logout-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.confirm-btn,
+.cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.confirm-btn {
+  background-color: #ff4d4d;
+  color: #fff;
+}
+
+.confirm-btn:hover {
+  background-color: #ff6666;
+}
+
+.cancel-btn {
+  background-color: #444;
+  color: #fff;
+}
+
+.cancel-btn:hover {
+  background-color: #555;
+}
+
+section {
+  padding: 3em 1.5em;
+  text-align: center;
+}
+
+button {
+  background: #00ff0d;
+  border: none;
+  padding: 0.8em 1.5em;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+button:hover {
+  background: #5b5b5b;
+}
+
+button:focus {
+  outline: 2px solid #00ff0d;
+  outline-offset: 2px;
+}
+
+form input, form textarea {
+  width: 80%;
+  margin: 0.5em auto;
+  display: block;
+  padding: 0.8em;
+  border: none;
+  border-radius: 8px;
+}
+
+form select {
+  width: 80%;
+  margin: 0.5em auto;
+  display: block;
+  padding: 0.8em;
+  border: none;
+  border-radius: 8px;
+  background: white;
+}
+
+.game-list {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  flex-wrap: wrap;
+  margin-top: 1.5em;
+}
+
+.game-card {
+  background: #1a1a1a;
+  padding: 2em;
+  border-radius: 10px;
+  width: 150px;
+  text-align: center;
+}
+
+.coming-soon {
+  opacity: 0.6;
+}
+
+.strategies-page{
+  padding: 2em;
+  color: #fff;
+}
+
+.items-grid{
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  margin-top: 1em;
+  justify-content: center;
+}
+
+.strategy-card{
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.strategy-card:hover{
+  transform: scale(1.05);
+}
+
+.card-bg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-label{
+  position: absolute;
+  bottom: 0;
+  left:0;
+  width: 100%;
+  background: rgba(0,0,0,0.6);
+  text-align: center;
+  padding: 0.4em 0;
+  font-weight: bold;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 2;
+}
+
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  opacity: 0;
+  transition: opacity 0.3s;
+  padding: .5em;
+  text-align: center;
+  z-index: 3;
+  font-size: 0.85rem;
+  overflow-y: auto;
+}
+
+.overlay p{
+  font-size: 0.85rem;
+  margin: 0.2em 0;
+}
+
+.strategy-card:hover .overlay{
+  opacity: 1;
+}
+
+.overlay ul{
+  list-style: disc;
+  padding-left: 1.2em;
+  margin: 0;
+}
+
+.overlay li {
+  margin-bottom: 0.3em;
+  line-height: 1.2em;
+  text-align: left;
+  word-break: break-word;
+}
+
+.coach-info p{
+  margin: 0.3em 0;
+  font-size: 0.9rem;
+}
+.coach-info img {
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 2px;
+}
+
+.coach-link{
+  color: #00ff0d;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.coach-link:hover{
+  color: #5b5b5b;
+}
+
+.game-section{
+  background: rgba(0,0,0,0.6);
+  margin: 1.5em 0;
+  padding: 1em 1.5em;
+  border-radius: 10px;
+}
+
+footer {
+  text-align: center;
+  background: #202020;
+  padding: 1em 0;
+  margin-top: 2em;
+}
+
+.fade-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.6s ease;
+  padding: 0.25em 0.5em;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  line-height: 1.2em;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left; 
+}
+
+.fade-content.visible {
+  opacity: 1;
+}
+
+.fade-content.hidden {
+  opacity: 0;
+}
+
+.card-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4em 0.6em;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 4;
+  transition: opacity 0.3s ease;
+}
+
+.strategy-card:hover .card-footer{
+  opacity: 1;
+}
+
+.card-footer .card-label{
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.favorite-icon-btn {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer;
+}
+
+.favorite-icon {
+  color: #ccc;
+  cursor: pointer;
+  font-size: 1.3em;
+  transition: color 0.3s ease, transform 0.2s ease;
+  pointer-events: auto;
+  z-index: 5;
+  opacity: 0;
+}
+
+.strategy-card:hover .favorite-icon{
+  opacity: 1;
+}
+
+.favorite-icon:hover {
+  transform: scale(1.2);
+  color: #ff5e5e;
+}
+
+.favorite-icon.filled {
+  color: #ff2d2d;
+}
+
+.empty-state {
+  padding: 2em;
+  text-align: center;
+}
+
+
+.loading {
+  text-align: center;
+  padding: 2em;
+  font-size: 1.2em;
+}
+
+
+
+
+
+
+.rank-row{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  margin: 8px 0 0 0;
+  text-align: center;
+}
+
+
+.rank-image {
+  max-width: 125px;
+  max-height: 125px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0;
+}
+
+
+@media (max-width: 768px){
+  .rank-image{
+    max-width: 32px;
+    max-height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .strategy-card {
+    width: 140px;
+    height: 140px;
+  }
+
+  .overlay {
+    overflow-y: hidden ;
+    }
+  
+  .overlay.long-hover {
+    overflow-y: auto;
+  }
+
+  .fade-content.hidden {
+    pointer-events: none;
+  }
+  button {
+    padding: 0.6em 1.2em;
+    font-size: 0.9rem;
+  }
+
+  .nav-badge {
+    background: #ff2d2d;
+    color: #fff;
+    padding: 0.1em 0.4em;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    margin-left: 0.4em;
+    vertical-align: middle;
+  }
+
+  .rank-row{
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    margin: 8px 0 0 0;
+    text-align: center;
+  }
+
+
+}
+
+@media (max-width: 400px){
+  .rank-image{
+    max-width: 24px;
+    max-height: 24px;
+  }
+
+  .nav-badge {
+    background: #00ff0d;
+    color: #000;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-left: 0.4em;
+  }
+
+}
