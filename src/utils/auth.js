@@ -5,6 +5,14 @@ export function registerUser(username, password, inviteCode = "") {
   const normalizedCode = (inviteCode || "").trim();
 
 
+  if (!username || username.length < 3) {
+    return { success: false, message: "Username must be at least 3 characters" };
+  }
+
+  if (!password || password.length < 3) {
+    return { success: false, message: "Password must be at least 3 characters" };
+  }
+
   if (normalizedCode !== "" && normalizedCode !== COACH_INVITE_CODE) {
     return { success: false, message: "Invalid invite code" };
   }
@@ -21,6 +29,15 @@ export function registerUser(username, password, inviteCode = "") {
   };
 
   localStorage.setItem("users", JSON.stringify(users));
+
+
+  localStorage.setItem(
+    "currentUser",
+    JSON.stringify({
+      username,
+      role
+    })
+  );
 
   return { success: true, message: "Account created successfully", role };
 }

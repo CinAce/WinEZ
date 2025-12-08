@@ -8,6 +8,7 @@ export default function Signup() {
   const [inviteCode, setInviteCode] = useState("");
   const [error, setError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [showInviteCode, setShowInviteCode] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export default function Signup() {
     setError("");
     const result = registerUser(username.trim(), password, inviteCode.trim());
     if (result.success) {
-      navigate("/login");
+      navigate("/strategies");
     } else {
       setError(result.message);
     }
@@ -30,19 +31,29 @@ export default function Signup() {
     setCurrentUser(null);
   };
 
+  const handleButtonClick = (e) => {
+  // Check if (Ctrl+Alt on Windows) OR (Cmd+Option on Mac) are held down
+  if ((e.ctrlKey || e.metaKey) && e.altKey) {
+    e.preventDefault();
+    setShowInviteCode(true);
+  } else {
+
+    handleSignup(e);
+  }
+};
+
   return (
-    <section style={{ textAlign: "center", marginTop: "50px" }}>
+    <section>
       {!currentUser ? (
         <>
           <h2>Create Account</h2>
-          <form onSubmit={handleSignup} style={{ display: "inline-block" }}>
+          <form onSubmit={handleSignup}>
             <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              style={{ display: "block", margin: "10px auto", padding: "8px" }}
             />
             <input
               type="password"
@@ -50,27 +61,24 @@ export default function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              style={{ display: "block", margin: "10px auto", padding: "8px" }}
             />
-            <input
-              type="text"
-              placeholder="Invite code (leave blank for regular user)"
-              value={inviteCode}
-              onChange={(e) => setInviteCode(e.target.value)}
-              style={{ display: "block", margin: "10px auto", padding: "8px" }}
-            />
-            <button type="submit" style={{ marginTop: "10px" }}>
-              Sign Up
-            </button>
+            {showInviteCode && (
+              <input
+                type="text"
+                placeholder="Invite code (optional - for coaches)"
+                value={inviteCode}
+                onChange={(e) => setInviteCode(e.target.value)}
+              />
+            )}
+            <button type="submit" onClick={handleButtonClick}>Sign Up</button>
           </form>
+          
+          {error && <p style={{ color: "red", marginTop: "1em" }}>{error}</p>}
 
-          <div style={{ marginTop: "15px" }}>
-            <p>Already have an account?</p>
+          <div style={{ marginTop: "2em" }}>
+            <p style={{ marginBottom: "0.5em" }}>Already have an account?</p>
             <button onClick={() => navigate("/login")}>Login</button>
           </div>
-
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          
         </>
       ) : (
         <>

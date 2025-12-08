@@ -23,22 +23,27 @@ export default function Login(){
             <h2>Login</h2>
             <form onSubmit={handleLogin}>
                 <input
-                type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required 
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required 
                 />
                 <input
-                type="password"
-                placeholder = "Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                 />
-                <button type = "submit">Login</button>
+                <button type="submit">Login</button>
             </form>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p style={{ color: "red", marginTop: "1em" }}>{error}</p>}
+            
+            <div style={{ marginTop: "2em" }}>
+                <p style={{ marginBottom: "0.5em" }}>Don't have an account?</p>
+                <button onClick={() => navigate("/signup")}>Sign Up</button>
+            </div>
         </section>
     );
 }

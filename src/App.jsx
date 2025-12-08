@@ -12,6 +12,7 @@ import Favorites from "./pages/Favorites";
 import Logout from "./pages/Logout";
 import UserMessages from "./pages/UserMessages";
 import Inbox from "./pages/Inbox";
+import StratDetail from "./pages/StrategyDetail";
 import "./styles/styles.css";
 
 export default function App() {
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/messages" element={<UserMessages />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/logout" element={<Logout />} />
+          <Route path="/strategy/:game/:name" element={<StratDetail />} />
         </Routes>
       </main>
       <Footer/>

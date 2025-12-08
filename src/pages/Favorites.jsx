@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { allStrategies } from "../data/games";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState([]);
   const [hoverIndex, setHoverIndex] = useState(null);
-  const [hoverLongIndex, setHoverLongIndex] = useState(null);
+  const [showCoachInfo, setShowCoachInfo] = useState({});
   const [gifTimestamps, setGifTimestamps] = useState({});
   const [sortOrder, setSortOrder] = useState("popular");
-  const hoverTimerRef = useRef(null);
-
-  const LONG_HOVER_MS = 1000;
+  const scrollTimerRef = useRef({});
+  const navigate = useNavigate();
 
   const difficultyColors = {
     Beginner: "green",
@@ -30,29 +30,46 @@ export default function Favorites() {
     setGifTimestamps(timestamps);
   }, []);
 
-  const handleMouseEnter = (index) => {
-    setHoverIndex(index);
-
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-      hoverTimerRef.current = null;
+  const handleMouseEnter = (cardId) => {
+    setHoverIndex(cardId);
+    
+    // Clear any existing timer for this card
+    if (scrollTimerRef.current[cardId]) {
+      clearInterval(scrollTimerRef.current[cardId]);
     }
-
-    hoverTimerRef.current = setTimeout(() => {
-      setHoverLongIndex(index);
-      hoverTimerRef.current = null;
-    }, LONG_HOVER_MS);
+    
+    // Start cycling between strategies and coach info every 3 seconds
+    scrollTimerRef.current[cardId] = setInterval(() => {
+      setShowCoachInfo(prev => ({
+        ...prev,
+        [cardId]: !prev[cardId]
+      }));
+    }, 3000);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (cardId) => {
     setHoverIndex(null);
-    setHoverLongIndex(null);
-
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-      hoverTimerRef.current = null;
+    
+    // Clear the timer
+    if (scrollTimerRef.current[cardId]) {
+      clearInterval(scrollTimerRef.current[cardId]);
+      delete scrollTimerRef.current[cardId];
     }
+    
+    // Reset to strategies view
+    setShowCoachInfo(prev => {
+      const updated = { ...prev };
+      delete updated[cardId];
+      return updated;
+    });
   };
+  
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      Object.values(scrollTimerRef.current).forEach(timer => clearInterval(timer));
+    };
+  }, []);
 
   const toggleFavorite = (charName) => {
     let updated;
@@ -134,22 +151,23 @@ export default function Favorites() {
             <h3 style={{ marginTop: 0 }}>{game}</h3>
             <div className="items-grid">
               {gameStrategies.map((char, index) => {
-                const isLongHovered = hoverLongIndex === `${game}-${index}`;
+                const cardId = `${game}-${index}`;
+                const isShowingCoachInfo = showCoachInfo[cardId];
 
                 return (
                   <div
-                    key={`${game}-${index}`}
+                    key={cardId}
                     className="strategy-card"
-                    onMouseEnter={() => handleMouseEnter(`${game}-${index}`)}
-                    onMouseLeave={handleMouseLeave}
+                    onClick={() => navigate(`/strategy/${encodeURIComponent(char.game)}/${encodeURIComponent(char.name)}`)}                    onMouseEnter={() => handleMouseEnter(cardId)}
+                    onMouseLeave={() => handleMouseLeave(cardId)}
                   >
                     <img
                       src={char.image}
                       alt={char.name}
                       className="card-bg"
                     />
-                    <div className={`overlay ${isLongHovered ? "long-hover" : ""}`}>
-                      <div className={`fade-content ${isLongHovered ? "hidden" : "visible"}`}>
+                    <div className={`overlay ${isShowingCoachInfo ? "long-hover" : ""}`}>
+                      <div className={`fade-content ${isShowingCoachInfo ? "hidden" : "visible"}`}>
                         <ul>
                           {char.strategies.map((s, i) => (
                             <li key={i}>{s}</li>
@@ -157,7 +175,7 @@ export default function Favorites() {
                         </ul>
                       </div>
 
-                      <div className={`fade-content ${isLongHovered ? "visible" : "hidden"}`}>
+                      <div className={`fade-content ${isShowingCoachInfo ? "visible" : "hidden"}`}>
                         <div className="coach-info">
                           <Link to="/team" className="coach-link">
                             <p style={{ display: "flex", alignItems: "center", gap: "8px", margin: 0 }}>

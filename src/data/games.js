@@ -12,9 +12,41 @@ import tekkenKing from "../assets/tekkenKing.png";
 import tekkenEmperor from "../assets/tekkenEmperor.png"
 import tekkenGodSupreme from "../assets/tekkenGodSupreme.png";
 
+// Game Covers
+import tekken8Cover from "../assets/tekken8Cover.png";
+import streetFighter6Cover from "../assets/streetFighter6Cover.png";
+import madden26Cover from "../assets/madden26Cover.png";
+import guiltyGearCover from "../assets/guiltyGear.png";
+import fatalFuryCover from "../assets/fatalFury.png";
+
 // Madden 26 Teams
 import vikings from "../assets/vikings.svg";
 import chargers from "../assets/chargers.svg";
+
+export const gameCovers = [
+  {
+    name: "Tekken 8",
+    cover: tekken8Cover,
+  },
+  {
+    name: "Street Fighter 6",
+    cover: streetFighter6Cover,
+  },
+  {
+    name: "Madden 26",
+    cover: madden26Cover,
+  },
+  {
+    name: "Guilty Gear Strive",
+    cover: guiltyGearCover,
+    comingSoon: true,
+  },
+  {
+    name: "Fatal Fury: City of the Wolves",
+    cover: fatalFuryCover,
+    comingSoon: true,
+  },
+];
 
  export const allStrategies = [
     {
@@ -30,6 +62,20 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "CinAce",
       difficulty: "Challenging",
       rankImage: tekkenGodSupreme,
+      videos: [
+        {
+          section: "Introduction",
+          youtubeId: "dQw4w9WgXcQ", // Replace with actual YouTube video ID
+        },
+        {
+          section: "Spacing & Neutral",
+          youtubeId: "dQw4w9WgXcQ", // Replace with actual YouTube video ID
+        },
+        {
+          section: "Counter Hit Setups",
+          youtubeId: "dQw4w9WgXcQ", // Replace with actual YouTube video ID
+        },
+      ],
     },
     {
       game: "Tekken 8",
@@ -44,6 +90,7 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "JoshDKilla",
       difficulty: "Challenging",
       rankImage: kishin,
+      videos: null, // No videos yet
     },
     {
       game: "Tekken 8",
@@ -58,6 +105,7 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "CinAce",
       difficulty: "Specialist",
       rankImage: tekkenEmperor,
+      videos: null,
     },
     {
       game: "Tekken 8",
@@ -72,6 +120,7 @@ import chargers from "../assets/chargers.svg";
         coachUsername: "ZayThaActivist",
         difficulty: "Challenging",
         rankImage: tekkenKing,
+        videos: null,
     },
     {
       game: "Tekken 8",
@@ -86,6 +135,7 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "CinAce",
       difficulty: "Challenging",
       rankImage: tekkenKing,
+      videos: null,
     },
     {
       game: "Tekken 8",
@@ -100,7 +150,7 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "CinAce",
       difficulty: "Specialist",
       rankImage: kishin,
-
+      videos: null,
     },
     {
       game: "Madden 26",
@@ -114,6 +164,7 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "CinAce",
       difficulty: "Intermediate",
       rankImage: null,
+      videos: null,
     },
     {
       game: "Madden 26",
@@ -128,6 +179,7 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "CinAce",
       difficulty: "Intermediate",
       rankImage: null,
+      videos: null,
     },
     {
       game: "Street Fighter 6",
@@ -142,6 +194,7 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "CinAce",
       difficulty: "Intermediate",
       rankImage: null,
+      videos: null,
     },
     {
       game: "Street Fighter 6",
@@ -156,6 +209,7 @@ import chargers from "../assets/chargers.svg";
       coachUsername: "CinAce",
       difficulty: "Challenging",
       rankImage: null,
+      videos: null,
     }
   ];
 

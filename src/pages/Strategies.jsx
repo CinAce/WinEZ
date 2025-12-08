@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import { allStrategies } from "../data/games";
 import { Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Strategies() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Get game filter from URL
+  const searchParams = new URLSearchParams(location.search);
+  const gameFilter = searchParams.get("game");
+  
   const [hoverIndex, setHoverIndex] = useState(null);
-  const [hoverLongIndex, setHoverLongIndex] = useState(null);
+  const [showCoachInfo, setShowCoachInfo] = useState({});
   const [favorites, setFavorites] = useState([]);
   const [gifTimestamps, setGifTimestamps] = useState({});
   const [sortOrder, setSortOrder] = useState("popular");
-  const hoverTimerRef = useRef(null);
-
-  const LONG_HOVER_MS = 1000;
+  const scrollTimerRef = useRef({});
 
   const difficultyColors = {
     Beginner: "green",
@@ -30,29 +36,41 @@ export default function Strategies() {
     setGifTimestamps(timestamps);
   }, []);
 
-  const handleMouseEnter = (index) => {
-    setHoverIndex(index);
-
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-      hoverTimerRef.current = null;
+  const handleMouseEnter = (cardId) => {
+    setHoverIndex(cardId);
+    
+    if (scrollTimerRef.current[cardId]) {
+      clearInterval(scrollTimerRef.current[cardId]);
     }
-
-    hoverTimerRef.current = setTimeout(() => {
-      setHoverLongIndex(index);
-      hoverTimerRef.current = null;
-    }, LONG_HOVER_MS);
+    
+    scrollTimerRef.current[cardId] = setInterval(() => {
+      setShowCoachInfo(prev => ({
+        ...prev,
+        [cardId]: !prev[cardId]
+      }));
+    }, 3000);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (cardId) => {
     setHoverIndex(null);
-    setHoverLongIndex(null);
-
-    if (hoverTimerRef.current) {
-      clearTimeout(hoverTimerRef.current);
-      hoverTimerRef.current = null;
+    
+    if (scrollTimerRef.current[cardId]) {
+      clearInterval(scrollTimerRef.current[cardId]);
+      delete scrollTimerRef.current[cardId];
     }
+    
+    setShowCoachInfo(prev => {
+      const updated = { ...prev };
+      delete updated[cardId];
+      return updated;
+    });
   };
+  
+  useEffect(() => {
+    return () => {
+      Object.values(scrollTimerRef.current).forEach(timer => clearInterval(timer));
+    };
+  }, []);
 
   const toggleFavorite = (charName) => {
     let updated;
@@ -67,14 +85,19 @@ export default function Strategies() {
 
   const isFavorited = (charName) => favorites.includes(charName);
 
+  // Filter strategies by game if URL param exists
+  const displayStrategies = gameFilter 
+    ? allStrategies.filter(s => s.game === gameFilter)
+    : allStrategies;
 
-  const games = [...new Set(allStrategies.map(s => s.game))];
+  // Get games from filtered strategies
+  const games = [...new Set(displayStrategies.map(s => s.game))];
   const gamesCounts = games.map(game => ({
     name: game,
-    count: allStrategies.filter(s => s.game === game).length
+    count: displayStrategies.filter(s => s.game === game).length
   }));
 
-
+  // Sort games
   let sortedGames;
   if (sortOrder === "popular") {
     sortedGames = gamesCounts.sort((a, b) => b.count - a.count).map(g => g.name);
@@ -86,8 +109,26 @@ export default function Strategies() {
 
   return (
     <section className="strategies-page">
+      {gameFilter && (
+        <button 
+          onClick={() => navigate('/strategies')} 
+          style={{ 
+            marginBottom: '1em',
+            background: '#202020',
+            border: '2px solid #00ff0d',
+            padding: '0.6em 1.2em',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            color: '#fff',
+            fontSize: '1rem'
+          }}
+        >
+          ← Back to All Games
+        </button>
+      )}
+      
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", marginBottom: "1rem" }}>
-        <h2 style={{ margin: 0 }}>Strategies</h2>
+        <h2 style={{ margin: 0 }}>{gameFilter || 'All Strategies'}</h2>
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <label htmlFor="sort-select" style={{ fontWeight: "bold" }}>Sort by Game:</label>
           <select
@@ -111,28 +152,30 @@ export default function Strategies() {
       </div>
 
       {sortedGames.map(game => {
-        const gameStrategies = allStrategies.filter(s => s.game === game);
+        const gameStrategies = displayStrategies.filter(s => s.game === game);
         return (
           <div key={game} className="game-section">
             <h3 style={{ marginTop: 0 }}>{game}</h3>
             <div className="items-grid">
               {gameStrategies.map((char, index) => {
-                const isLongHovered = hoverLongIndex === `${game}-${index}`;
+                const cardId = `${game}-${index}`;
+                const isShowingCoachInfo = showCoachInfo[cardId];
 
                 return (
                   <div
-                    key={`${game}-${index}`}
+                    key={cardId}
                     className="strategy-card"
-                    onMouseEnter={() => handleMouseEnter(`${game}-${index}`)}
-                    onMouseLeave={handleMouseLeave}
+                    onClick={() => navigate(`/strategy/${encodeURIComponent(char.game)}/${encodeURIComponent(char.name)}`)}
+                    onMouseEnter={() => handleMouseEnter(cardId)}
+                    onMouseLeave={() => handleMouseLeave(cardId)}
                   >
                     <img
                       src={char.image}
                       alt={char.name}
                       className="card-bg"
                     />
-                    <div className={`overlay ${isLongHovered ? "long-hover" : ""}`}>
-                      <div className={`fade-content ${isLongHovered ? "hidden" : "visible"}`}>
+                    <div className={`overlay ${isShowingCoachInfo ? "long-hover" : ""}`}>
+                      <div className={`fade-content ${isShowingCoachInfo ? "hidden" : "visible"}`}>
                         <ul>
                           {char.strategies.map((s, i) => (
                             <li key={i}>{s}</li>
@@ -140,7 +183,7 @@ export default function Strategies() {
                         </ul>
                       </div>
 
-                      <div className={`fade-content ${isLongHovered ? "visible" : "hidden"}`}>
+                      <div className={`fade-content ${isShowingCoachInfo ? "visible" : "hidden"}`}>
                         <div className="coach-info">
                           <Link to="/team" className="coach-link">
                             <p style={{ display: "flex", alignItems: "center", gap: "8px", margin: 0 }}>

@@ -14,31 +14,29 @@ export default function Navbar() {
     setCurrentUser(user);
   }, []);
 
- const updateCounts = useCallback(() => {
-  try {
-    const user = getCurrentUser();
-    const all = JSON.parse(localStorage.getItem("messages")) || [];
-    if (!user) {
+  const updateCounts = useCallback(() => {
+    try {
+      const user = getCurrentUser();
+      const all = JSON.parse(localStorage.getItem("messages")) || [];
+      if (!user) {
+        setInboxCount(0);
+        setSentCount(0);
+        return;
+      }
+      
+      setInboxCount(
+        all.filter(m => m.to === user.username && !m.reply && !(m.hiddenFrom || []).includes(user.username)).length
+      );
+      
+      setSentCount(
+        all.filter(m => m.from === user.username && m.reply && !(m.hiddenFrom || []).includes(user.username)).length
+      );
+    } catch (err) {
+      console.warn("Navbar: failed to update message counts", err);
       setInboxCount(0);
       setSentCount(0);
-      return;
     }
-    
-
-    setInboxCount(
-      all.filter(m => m.to === user.username && !m.reply && !(m.hiddenFrom || []).includes(user.username)).length
-    );
-    
-
-    setSentCount(
-      all.filter(m => m.from === user.username && m.reply && !(m.hiddenFrom || []).includes(user.username)).length
-    );
-  } catch (err) {
-    console.warn("Navbar: failed to update message counts", err);
-    setInboxCount(0);
-    setSentCount(0);
-  }
-}, []);
+  }, []);
 
   useEffect(() => {
     updateUser();
@@ -66,30 +64,32 @@ export default function Navbar() {
         <img src={logo} alt="WinEZ Logo" className="logo" />
       </Link>
       <ul>
-        <li><Link to="/">Home</Link></li>
         <li><Link to="/team">Team</Link></li>
-        <li><Link to="/strategies">Strategies</Link></li>
-        <li><Link to="/games">Games</Link></li>
-        <li><Link to="/contact">Contact</Link></li>
-        <li><Link to="/favorites">Favorites</Link></li>
 
         {!currentUser ? (
           <li>
-            <Link to="/signup" className="signup-btn">Sign Up / Login</Link>
+            <Link to="/login" className="signup-btn">Login</Link>
           </li>
         ) : (
           <>
+            <li><Link to="/strategies">Strategies</Link></li>
+            <li><Link to="/games">Games</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
+            <li><Link to="/favorites">Favorites</Link></li>
+
             {currentUser.role === "coach" && (
               <li>
                 <Link to="/inbox">Inbox
-{inboxCount > 0 && <span className="nav-badge" style={{ background: "#00ff0d", color: "#000", borderRadius: "50%", width: "24px", height: "24px", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem", fontWeight: "bold", marginLeft: "0.4em" }}>{inboxCount}</span>}                </Link>
+                  {inboxCount > 0 && <span className="nav-badge">{inboxCount}</span>}
+                </Link>
               </li>
             )}
 
             {currentUser.role === "user" && (
               <li>
                 <Link to="/messages">My Messages
-{sentCount > 0 && <span className="nav-badge" style={{ background: "#00ff0d", color: "#000", borderRadius: "50%", width: "24px", height: "24px", display: "inline-flex", alignItems: "center", justifyContent: "center", fontSize: "0.75rem", fontWeight: "bold", marginLeft: "0.4em" }}>{sentCount}</span>}                </Link>
+                  {sentCount > 0 && <span className="nav-badge">{sentCount}</span>}
+                </Link>
               </li>
             )}
 
