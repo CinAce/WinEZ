@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { allStrategies } from "../data/games";
 import { Link } from "react-router-dom";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getCurrentUser } from "../utils/auth";
 
 export default function Strategies() {
   const navigate = useNavigate();
   const location = useLocation();
+  const currentUser = getCurrentUser();
   
   // Get game filter from URL
   const searchParams = new URLSearchParams(location.search);
@@ -26,15 +28,40 @@ export default function Strategies() {
   };
 
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(saved);
+    // Load user-specific favorites with migration
+    if (currentUser) {
+      const saved = localStorage.getItem("favorites");
+      let allFavorites = {};
+      
+      try {
+        const parsed = JSON.parse(saved);
+        
+        // Check if it's the old array format
+        if (Array.isArray(parsed)) {
+          console.log("Migrating old favorites format...");
+
+          localStorage.removeItem("favorites");
+          setFavorites([]);
+        } else {
+
+          allFavorites = parsed || {};
+          const userFavorites = allFavorites[currentUser.username] || [];
+          setFavorites(userFavorites);
+        }
+      } catch (e) {
+        console.error("Error loading favorites:", e);
+        setFavorites([]);
+      }
+    } else {
+      setFavorites([]);
+    }
 
     const timestamps = {};
     allStrategies.forEach((char, index) => {
       timestamps[index] = Date.now();
     });
     setGifTimestamps(timestamps);
-  }, []);
+  }, [currentUser?.username]);
 
   const handleMouseEnter = (cardId) => {
     setHoverIndex(cardId);
@@ -73,14 +100,27 @@ export default function Strategies() {
   }, []);
 
   const toggleFavorite = (charName) => {
-    let updated;
-    if (favorites.includes(charName)) {
-      updated = favorites.filter((f) => f !== charName);
-    } else {
-      updated = [...favorites, charName];
+    if (!currentUser) {
+      alert("Please log in to save favorites");
+      return;
     }
+
+    // Get all favorites from localStorage
+    const allFavorites = JSON.parse(localStorage.getItem("favorites")) || {};
+    const userFavorites = allFavorites[currentUser.username] || [];
+
+    let updated;
+    if (userFavorites.includes(charName)) {
+      updated = userFavorites.filter((f) => f !== charName);
+    } else {
+      updated = [...userFavorites, charName];
+    }
+
+    // Update the user's favorites in the allFavorites object
+    allFavorites[currentUser.username] = updated;
+    
     setFavorites(updated);
-    localStorage.setItem("favorites", JSON.stringify(updated));
+    localStorage.setItem("favorites", JSON.stringify(allFavorites));
   };
 
   const isFavorited = (charName) => favorites.includes(charName);

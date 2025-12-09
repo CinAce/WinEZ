@@ -1,19 +1,55 @@
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../utils/auth';
+import { useEffect, useRef } from 'react';
+import aiExample from '../assets/aiExample.mp4';
+import coachingExample from '../assets/coachingExample.mp4';
 
 export default function Home() {
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
+  const aiVideoRef = useRef(null);
+  const coachingVideoRef = useRef(null);
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.3 
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          // Start playing the video
+          video.play().catch(err => console.log('Video play failed:', err));
+        } else {
+          // Pause and reset when out of view
+          video.pause();
+          video.currentTime = 0;
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    if (aiVideoRef.current) {
+      observer.observe(aiVideoRef.current);
+    }
+    if (coachingVideoRef.current) {
+      observer.observe(coachingVideoRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   const handleExploreStrategies = () => {
     if (currentUser) {
       navigate('/strategies');
     } else {
-      // Redirect to login page
       navigate('/signup');
-      // Or if you want to show an alert first:
-      // alert('Please log in to view strategies');
-      // navigate('/login');
     }
   };
 
@@ -50,15 +86,28 @@ export default function Home() {
 
       <div className="ai-section">
         <h2>AI Doesn't Give Reliable Results</h2>
-        <div className="video-placeholder">
-          <p>Video Placeholder</p>
+        <div className="example-container">
+          <video 
+            ref={aiVideoRef}
+            src={aiExample}
+            className="example-gif"
+            muted
+            loop
+            playsInline
+          />
         </div>
       </div>
 
       <div className="coaching-section">
-        <h2>Our Personalized Coaching Experience Makes Sure You Choose the Right Option Everytime</h2>
-        <div className="video-placeholder">
-          <p>Video Placeholder</p>
+      <h2>Get Personalized Coaching for the Right Decision <span className="gold-text">Everytime</span></h2>        <div className="example-container">
+          <video 
+            ref={coachingVideoRef}
+            src={coachingExample}
+            className="example-gif"
+            muted
+            loop
+            playsInline
+          />
         </div>
       </div>
     </section>

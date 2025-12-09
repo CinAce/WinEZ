@@ -5,6 +5,11 @@ import king from "../assets/king.gif";
 import bryanFury from "../assets/bryanFury.gif";
 import leeChaolan from "../assets/leeChaolan.gif";
 import kazuya from "../assets/kazuya.gif";
+import miaryZo from "../assets/miaryZo.gif";
+
+// Street Fighter 6 Characters
+import ryu from "../assets/ryu.gif";
+import chunLi from "../assets/chunLi.gif";
 
 // Rank icons
 import kishin from "../assets/kishin.png";
@@ -23,6 +28,9 @@ import fatalFuryCover from "../assets/fatalFury.png";
 import vikings from "../assets/vikings.svg";
 import chargers from "../assets/chargers.svg";
 
+// Videos 
+import armorKingGuide from "../assets/armorKingGuide.mp4";
+
 export const gameCovers = [
   {
     name: "Tekken 8",
@@ -39,12 +47,10 @@ export const gameCovers = [
   {
     name: "Guilty Gear Strive",
     cover: guiltyGearCover,
-    comingSoon: true,
   },
   {
     name: "Fatal Fury: City of the Wolves",
     cover: fatalFuryCover,
-    comingSoon: true,
   },
 ];
 
@@ -64,17 +70,21 @@ export const gameCovers = [
       rankImage: tekkenGodSupreme,
       videos: [
         {
-          section: "Introduction",
-          youtubeId: "dQw4w9WgXcQ", // Replace with actual YouTube video ID
+          section: "CH Setups",
+          videoFile: armorKingGuide,
+          timestamp: 0,
         },
         {
-          section: "Spacing & Neutral",
-          youtubeId: "dQw4w9WgXcQ", // Replace with actual YouTube video ID
+          section: "Whiff Punishes",
+          videoFile: armorKingGuide,
+          timestamp: 22,
         },
         {
-          section: "Counter Hit Setups",
-          youtubeId: "dQw4w9WgXcQ", // Replace with actual YouTube video ID
-        },
+          section: "Frame Traps",
+          videoFile: armorKingGuide,
+          timestamp: 43,
+        }
+        
       ],
     },
     {
@@ -90,7 +100,7 @@ export const gameCovers = [
       coachUsername: "JoshDKilla",
       difficulty: "Challenging",
       rankImage: kishin,
-      videos: null, // No videos yet
+      videos: null, 
     },
     {
       game: "Tekken 8",
@@ -153,6 +163,21 @@ export const gameCovers = [
       videos: null,
     },
     {
+      game: "Tekken 8",
+      name: "Miary Zo",
+      image: miaryZo,
+      strategies: [
+        "Utilize stance transitions",
+        "Mix low and mid attacks",
+        "Capitalize on opponent's mistakes"
+      ],
+      coach: "Adams",
+      coachUsername: "CinAce",
+      difficulty: "challenging",
+      rankImage: kishin,
+      videos: null,
+    },
+    {
       game: "Madden 26",
       name: "Vikings",
       image: vikings,
@@ -184,7 +209,7 @@ export const gameCovers = [
     {
       game: "Street Fighter 6",
       name: "Ryu",
-      image: null,
+      image: ryu,
       strategies: [
         "Fundamental footsies",
         "Hadoken zoning",
@@ -199,7 +224,7 @@ export const gameCovers = [
     {
       game: "Street Fighter 6",
       name: "Chun-Li",
-      image: null,
+      image: chunLi,
       strategies: [
         "Spacing with normals",
         "Lightning Legs pressure",

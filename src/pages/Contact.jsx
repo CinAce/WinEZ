@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { tekken8Characters } from "../data/games"; 
 import { getCurrentUser } from "../utils/auth";
 
 export default function Contact() {
+  const location = useLocation();
   const [selectedGame, setSelectedGame] = useState("");
   const [selectedChar, setSelectedChar] = useState("");
   const [message, setMessage] = useState("");
@@ -17,6 +19,24 @@ export default function Contact() {
   const characters = selectedGame
     ? games.find(g => g.id === selectedGame).characters
     : [];
+
+
+  useEffect(() => {
+    if (location.state) {
+
+      if (location.state.game === "Tekken 8") {
+        setSelectedGame("tekken8");
+      }
+      
+
+      if (location.state.character) {
+
+        setTimeout(() => {
+          setSelectedChar(location.state.character);
+        }, 0);
+      }
+    }
+  }, [location.state]);
 
   const safeParseMessages = () => {
     const raw = localStorage.getItem("messages");
@@ -77,8 +97,6 @@ export default function Contact() {
       });
 
       localStorage.setItem("messages", JSON.stringify(allMessages));
-
-
 
       window.dispatchEvent(new Event("messagesUpdated"));
 

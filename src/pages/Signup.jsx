@@ -32,7 +32,7 @@ export default function Signup() {
   };
 
   const handleButtonClick = (e) => {
-  // Check if (Ctrl+Alt on Windows) OR (Cmd+Option on Mac) are held down
+
   if ((e.ctrlKey || e.metaKey) && e.altKey) {
     e.preventDefault();
     setShowInviteCode(true);

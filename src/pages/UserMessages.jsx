@@ -216,7 +216,7 @@ export default function UserMessages() {
               )}
             </li>
           ))}
-        </ul>
+        </ul> 
       )}
     </section>
   );

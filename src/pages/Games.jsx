@@ -6,7 +6,7 @@ export default function Games() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Include all games from gameCovers (both available and coming soon)
+  // Include all games from gameCovers
   const gamesWithCounts = gameCovers.map(game => ({
     ...game,
     strategyCount: allStrategies.filter(s => s.game === game.name).length
@@ -17,10 +17,10 @@ export default function Games() {
     game.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleGameClick = (game) => {
-    // Only navigate if the game is not coming soon
-    if (!game.comingSoon) {
-      navigate(`/strategies?game=${encodeURIComponent(game.name)}`);
+  const handleGameClick = (gameName, strategyCount) => {
+
+    if (strategyCount > 0) {
+      navigate(`/strategies?game=${encodeURIComponent(gameName)}`);
     }
   };
 
@@ -49,17 +49,17 @@ export default function Games() {
           {filteredGames.map((game) => (
             <div
               key={game.name}
-              className={`game-cover-card ${game.comingSoon ? 'coming-soon' : ''}`}
-              onClick={() => handleGameClick(game)}
-              style={{ cursor: game.comingSoon ? 'default' : 'pointer' }}
+              className="game-cover-card"
+              onClick={() => handleGameClick(game.name, game.strategyCount)}
+              style={{ cursor: game.strategyCount > 0 ? 'pointer' : 'default' }}
             >
               <img src={game.cover} alt={game.name} className="game-cover-image" />
               <div className="game-cover-overlay">
                 <h3>{game.name}</h3>
-                {game.comingSoon ? (
-                  <p>Coming Soon</p>
-                ) : (
+                {game.strategyCount > 0 ? (
                   <p>{game.strategyCount} {game.strategyCount === 1 ? 'Strategy' : 'Strategies'} Available</p>
+                ) : (
+                  <p style={{ color: '#00ff0d', fontWeight: 600, fontSize: '1.2rem' }}>Coming Soon</p>
                 )}
               </div>
             </div>

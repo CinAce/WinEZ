@@ -19,7 +19,7 @@ export default function App() {
   return (
     <>
       <Navbar />
-      <main>
+      <main style ={{ flex: 1}}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/team" element={<Team />} />
