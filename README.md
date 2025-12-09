@@ -6,7 +6,7 @@
 
 WinEZ is a competitive gaming strategy platform that connects players with expert coaches to improve their skills in popular fighting games and competitive titles. The platform features video tutorials, personalized strategies, and direct coach-to-player communication.
 
-## 🎮 Supported Games
+## Supported Games
 
 - **Tekken 8** - Featured characters: Armor King, Nina Williams, King, Bryan Fury, Lee Chaolan, Kazuya, and more
 - **Street Fighter 6** - Featured characters: Ryu, Chun-Li
@@ -14,7 +14,7 @@ WinEZ is a competitive gaming strategy platform that connects players with exper
 - **Guilty Gear Strive** (Coming Soon)
 - **Fatal Fury: City of the Wolves** (Coming Soon)
 
-## ✨ Features
+## Features
 
 ### For Players
 - **Video Strategy Guides** - Watch detailed tutorials on character-specific techniques
@@ -40,7 +40,7 @@ WinEZ is a competitive gaming strategy platform that connects players with exper
 - **Local Storage Persistence** - Save user data, favorites, and messages locally
 - **Modern UI/UX** - Cyberpunk/gaming-inspired design with aurora effects
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -81,7 +81,7 @@ The built files will be in the `dist/` directory.
 npm run preview
 ```
 
-## 🏗️ Project Structure
+## Project Structure
 
 ```
 itc320project/
@@ -120,7 +120,7 @@ itc320project/
 └── package.json
 ```
 
-## 🔐 Authentication System
+## Authentication System
 
 The platform uses a role-based authentication system stored in browser localStorage:
 
@@ -150,7 +150,7 @@ Located in `src/utils/auth.js`:
 - `logoutUser()` - Clear session
 - `promoteUser(username, newRole)` - Change user roles
 
-## 📚 Key Pages & Routes
+## Key Pages & Routes
 
 | Route | Component | Description |
 |-------|-----------|-------------|
@@ -167,7 +167,7 @@ Located in `src/utils/auth.js`:
 | `/team` | Team | Meet the coaches |
 | `/logout` | Logout | End session |
 
-## 🎥 Video Strategy System
+## Video Strategy System
 
 Strategies include sectioned video tutorials with timestamps:
 
@@ -190,7 +190,7 @@ videos: [
 
 Users can click section buttons to jump to specific timestamps in the video.
 
-## 💾 Data Storage
+## Data Storage
 
 The application uses browser localStorage for data persistence:
 
@@ -199,7 +199,7 @@ The application uses browser localStorage for data persistence:
 - **favorites** - User's favorited strategies
 - **messages** - All platform messages
 
-## 🎨 Design & Styling
+## Design & Styling
 
 - Custom CSS with cyberpunk/gaming aesthetic
 - Neon green (`#00ff0d`) accent color
@@ -208,7 +208,7 @@ The application uses browser localStorage for data persistence:
 - Smooth transitions and hover effects
 - Video auto-play with Intersection Observer
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 - **React 19.1.1** - UI framework
 - **React Router DOM 7.9.5** - Client-side routing
@@ -217,20 +217,20 @@ The application uses browser localStorage for data persistence:
 - **LocalStorage API** - Data persistence
 - **Intersection Observer API** - Video auto-play
 
-## 📱 Browser Support
+## Browser Support
 
 - Chrome/Edge (latest)
 - Firefox (latest)
 - Safari (latest)
 - Mobile browsers (iOS Safari, Chrome Mobile)
 
-## 👥 Team
+## Team
 
 - **Adams (CinAce)** - Tekken God Supreme - Armor King, King, Lee specialist
 - **Shannon (JoshDKilla)** - Kishin rank - Nina Williams specialist
 - **Gill (ZayThaActivist)** - Tekken King - Bryan Fury specialist
 
-## 🤝 Contributing
+## Contributing
 
 This is a class project for ITC320. If you'd like to contribute:
 
@@ -240,31 +240,27 @@ This is a class project for ITC320. If you'd like to contribute:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is created for educational purposes as part of ITC320 coursework.
 
-## 🐛 Known Issues
+## Known Issues
 
 - Video files are currently stored locally in the assets folder
 - No backend server - all data stored in localStorage
 - Messages are not persistent across different browsers/devices
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
-- [ ] Backend API integration
-- [ ] Database for user accounts and messages
-- [ ] Video streaming from CDN
-- [ ] Live coaching sessions
-- [ ] Tournament brackets and rankings
-- [ ] Payment integration for premium coaching
-- [ ] More games and characters
-- [ ] Social features (friend lists, match replays)
+- Backend API integration
+- Database for user accounts and messages
+- Video streaming from CDN
+- Live coaching sessions
+- Tournament brackets and rankings
+- Payment integration for premium coaching
+- More games and characters
+- Social features (friend lists, match replays)
 
-## 📞 Contact
+## Contact
 
 Project Link: [https://github.com/CinAce/ITC320Project](https://github.com/CinAce/ITC320Project)
-
----
-
-**Built with ❤️ for the competitive gaming community**
